@@ -110,7 +110,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         padding: var(--calculated-polymer-quill-editor-padding);
       }
       #editor .ql-editor {
-        overflow-y: visible; 
+        overflow-y: visible;
       }
       .results {
         padding: 20px 10px;
@@ -122,7 +122,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       }
 
     </style>
-    
+
     <div id="scrollingContainer">
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     </div>
@@ -275,7 +275,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
             [{ header: [1, 2, 3, 4, false] }],
             ['bold', 'italic', 'underline', 'strike'],
             [{ 'align': [] }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }], 
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
             ['link', 'blockquote', 'code-block', 'image', 'video'],
             [{ 'color': [] }, { 'background': [] }],
             [{ list: 'ordered' }, { list: 'bullet' }],
@@ -294,7 +294,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           strict: false,
           readOnly: this.readOnly,
           placeholder: this.placeholder,
-          scrollingContainer: this.$.scrollingContainer, 
+          scrollingContainer: this.$.scrollingContainer,
           bounds: this.$.editor
         });
 
@@ -406,7 +406,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           }
           return delta;
         });
-        
+
       },
 
       isWhitespace: function(ch) {

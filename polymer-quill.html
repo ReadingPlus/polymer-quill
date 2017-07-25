@@ -1,4 +1,3 @@
-
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-snow.html">
@@ -86,12 +85,15 @@ Custom property | Description | Default
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
         @apply(--polymer-quill);
+        margin-top: 1rem;
       }
       #editor {
-        max-height: var(--calculated-polymer-quill-editor-max-height);
+        /* max-height: var(--calculated-polymer-quill-editor-max-height); */
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
+        border-top: none;
+        background: #fff;
      }
       .results {
         padding: 20px 10px;
@@ -324,6 +326,47 @@ Custom property | Description | Default
         }
       },
       ready: function() {
+        // console.log('READY');
+        // var that = this;
+        // window.addEventListener('WebComponentsReady', function(e) {
+        //   console.log('WINDOW-READY');
+        //   var element = that.$$('.ql-editor');
+        //   console.log(element);
+        //   element.addEventListener("selectstart",function() {
+        //     console.log('SELECTSTART');
+        //     events = ["click", "mouseup", "mousedown", "keydown", "keyup"];
+        //
+        //     events.forEach(function(el, i){
+        //       element.addEventListener(el, function() {
+        //         console.log('SHOULD BE SHOWING TOOLS');
+        //         var selection	= that.shadowRoot.getSelection();
+        //         var range = selection.getRangeAt(0);
+        //         var clientRects = range.getClientRects();
+        //         var left = 10000,
+        //             right = 0,
+        //             top = 10000,
+        //             shouldHide = true;
+        //         for (var i = 0; i < clientRects.length; i++) {
+        //           left = Math.min(left,clientRects[i].left);
+        //           right = Math.max(right,clientRects[i].left+clientRects[i].width);
+        //           top = Math.min(top,clientRects[i].top);
+        //           if (clientRects[i].width > 0){
+        //             shouldHide = false;
+        //           }
+        //         }
+        //         var box = that.$$('.ql-floating-format');
+        //         if (shouldHide) {
+        //           box.classList.add('hidden');
+        //         } else {
+        //           console.log('right here');
+        //           box.classList.remove('hidden');
+        //           box.style.top = top+'px';
+        //           box.style.left = (left+right)/2+'px';
+        //         }
+        //       });
+        //     });
+        //   });
+        // });
       },
 
       setContent: function() {
@@ -343,41 +386,50 @@ Custom property | Description | Default
       },
 
       attached: function() {
-        var that = this;
-        window.addEventListener('WebComponentsReady', function(e) {
-          var element = that.$$('.ql-editor');
-          element.addEventListener("selectstart",function() {
-            events = ["click", "mouseup", "mousedown", "keydown", "keyup"];
-
-            events.forEach(function(el, i){
-              element.addEventListener(el, function() {
-              	var selection	= that.shadowRoot.getSelection();
-                var range = selection.getRangeAt(0);
-                var clientRects = range.getClientRects();
-                var left = 10000,
-                    right = 0,
-                    top = 10000,
-                    shouldHide = true;
-                for (var i = 0; i < clientRects.length; i++) {
-                  left = Math.min(left,clientRects[i].left);
-                  right = Math.max(right,clientRects[i].left+clientRects[i].width);
-                  top = Math.min(top,clientRects[i].top);
-                  if (clientRects[i].width > 0){
-                    shouldHide = false;
-                  }
-                }
-                var box = that.$$('.ql-floating-format');
-                if (shouldHide) {
-                  box.classList.add('hidden');
-                } else {
-                  box.classList.remove('hidden');
-                  box.style.top = top+'px';
-                  box.style.left = (left+right)/2+'px';
-                }
-              });
-            });
-          });
-        });
+        // var that = this;
+        // console.log('ATTACHED');
+        // this.debounce('eventListenerDebounce', function(){
+        //   console.log(window);
+        //
+        //   window.addEventListener('WebComponentsReady', function(e) {
+        //     console.log('WINDOW');
+        //     var element = that.$$('.ql-editor');
+        //     element.addEventListener("selectstart",function() {
+        //       console.log('SELECTSTART');
+        //       events = ["click", "mouseup", "mousedown", "keydown", "keyup"];
+        //
+        //       events.forEach(function(el, i){
+        //         element.addEventListener(el, function() {
+        //           console.log('SHOULD BE SHOWING TOOLS');
+        //         	var selection	= that.shadowRoot.getSelection();
+        //           var range = selection.getRangeAt(0);
+        //           var clientRects = range.getClientRects();
+        //           var left = 10000,
+        //               right = 0,
+        //               top = 10000,
+        //               shouldHide = true;
+        //           for (var i = 0; i < clientRects.length; i++) {
+        //             left = Math.min(left,clientRects[i].left);
+        //             right = Math.max(right,clientRects[i].left+clientRects[i].width);
+        //             top = Math.min(top,clientRects[i].top);
+        //             if (clientRects[i].width > 0){
+        //               shouldHide = false;
+        //             }
+        //           }
+        //           var box = that.$$('.ql-floating-format');
+        //           if (shouldHide) {
+        //             box.classList.add('hidden');
+        //           } else {
+        //             console.log('right here');
+        //             box.classList.remove('hidden');
+        //             box.style.top = top+'px';
+        //             box.style.left = (left+right)/2+'px';
+        //           }
+        //         });
+        //       });
+        //     });
+        //   });
+        // });
         this.fire('attached');
         this.quillc = QuillFactory();
         if (this.toolbarType === 'full') {
