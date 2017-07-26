@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-snow.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 
 <!--
 ## Polymer Quill Rich Text Editor using Snow Theme
@@ -80,10 +81,11 @@ Custom property | Description | Default
     <style is="custom-style" include="polymer-quill-styles-snow">
       :host {
         --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
-        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 192px);
         --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
-        display: block;
+        display: flex;
+        align-items: stretch;
         @apply(--polymer-quill);
         margin-top: 1rem;
       }
@@ -92,8 +94,21 @@ Custom property | Description | Default
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
-        border-top: none;
+        border-left: none;
         background: #fff;
+        font-size: 1rem;
+        flex: 1 1 auto;
+     }
+     iron-icon[icon="icons:delete"] {
+       margin-top: auto;
+       border-top: 1px solid #ccc;
+       width: 32px;
+       height: 32px;
+       padding: 6px;
+       cursor: pointer;
+     }
+     iron-icon[icon="icons:delete"]:hover {
+       fill: #06c;
      }
       .results {
         padding: 20px 10px;
@@ -133,6 +148,7 @@ Custom property | Description | Default
         <button class="ql-clean" title="Clear Formating"></button>
         <!-- <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button> -->
       </span>
+      <iron-icon icon="icons:delete" on-tap="deleteSegment"></iron-icon>
       <!-- <span class="ql-formats" hidden$="{{standardToolbar}}">
         <select class="ql-color" title="Text Color"></select>
         <select class="ql-background" title="Text Background Color"></select>
@@ -323,7 +339,14 @@ Custom property | Description | Default
           type: String,
           value: 'Compose an epic...',
           notify: true,
+        },
+        isNewStory: {
+          type: Boolean,
+          value: false
         }
+      },
+      deleteSegment: function() {
+        this.fire('delete-segment',{"segmentIndex":this.segmentIndex,"isNewStory":this.isNewStory});
       },
       ready: function() {
         // console.log('READY');
