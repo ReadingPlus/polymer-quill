@@ -1,0 +1,138 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="clio-search">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+        padding: 10px;
+        width: 80%;
+        min-height: 25px;
+        border-radius: 3px;
+        background-color: rgba(0,0,0,0.2);
+        position: relative;
+      }
+
+      .input {
+        font-size: 16px;
+        outline: none;
+        display: block;
+        flex: 1;
+        box-sizing: border-box;
+        padding-left: 6px;
+        padding-right: 6px;
+        text-align: left;
+      }
+
+      .tag {
+        background-color: #0277bd;
+        color: #fff;
+        border-radius: 3px;
+        padding: 2px 3px 2px 6px;
+        font-size: 16px;
+        margin-left: 6px;
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+      }
+      .tag iron-icon {
+        width: 16px;
+        height: 16px;
+        margin-left: 3px;
+        border-radius: 2px;
+      }
+      .tag iron-icon:hover {
+        background-color: rgba(0,0,0,0.2);
+      }
+
+    </style>
+    <iron-ajax
+      id="imageSearch"
+      method="get"
+      handle-as="json"
+      on-response="loadImages"
+      debounce-duration="300">
+    </iron-ajax>
+    <iron-icon icon="icons:search"></iron-icon>
+    <template is="dom-repeat" items="[[tags]]" as="tag">
+        <span class="tag">[[tag]]<iron-icon index$="[[index]]" icon="icons:clear" on-tap="removeTag"></iron-icon></span>
+    </template>
+    <div class="input" contenteditable="true" tabindex="1">
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'clio-search',
+      listeners: {
+        "keydown": "removeEndTag",
+        "keyup": "addTag"
+      },
+      properties: {
+        tags: {
+            type: Array,
+            value: function() {
+                return [];
+            }
+        },
+        files: {
+          type: Array,
+          notify: true
+        }
+      },
+      removeEndTag: function(e) {
+        console.log('keydown');
+        if(e.which === 8 && this.$$(".input").textContent.length === 0) {
+          this.splice("tags", this.tags.length-1, 1);
+          this.searchTags();
+        }
+      },
+      addTag: function(e) {
+        console.log('keyup');
+        if(e.which === 32 || e.which === 13) {
+          if (this.$$(".input").textContent.trim().length != 0) {
+            this.push("tags", this.$$(".input").textContent.trim());
+            this.searchTags();
+          }
+          this.$$(".input").textContent = "";
+        }
+      },
+      removeTag: function(e) {
+        this.splice("tags", e.currentTarget.getAttribute('index'), 1);
+        this.searchTags();
+      },
+      searchTags: function() {
+        if (this.tags.length > 0) {
+          this.set('tags',this.tags.map(function(tag){
+            tag = tag.toLowerCase();
+            return tag.charAt(0).toUpperCase() + tag.slice(1);
+          }));
+          var tagString = this.tags.join('&tags[]=');
+          this.$.imageSearch.url = "http://localhost:1337/files/search?tags[]="+tagString;
+        } else {
+          this.$.imageSearch.url = "http://localhost:1337/files";
+        }
+        this.$.imageSearch.generateRequest();
+      },
+      loadImages: function(response) {
+        // console.log(response.detail.__data__.response.Items);
+        this.set('files',response.detail.__data__.response.Items)
+      }
+    });
+  </script>
+</dom-module>

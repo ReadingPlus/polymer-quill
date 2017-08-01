@@ -81,7 +81,7 @@ Custom property | Description | Default
     <style is="custom-style" include="polymer-quill-styles-snow">
       :host {
         --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
-        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 192px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 220px);
         --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: flex;
@@ -89,26 +89,56 @@ Custom property | Description | Default
         @apply(--polymer-quill);
         margin-top: 1rem;
       }
+      :host(:hover) .ql-snow.ql-toolbar button,
+      :host(:hover) iron-icon[icon="icons:clear"],
+      :host(:hover) iron-icon[icon="icons:settings"] {
+        opacity: 1;
+        visibility: visible;
+      }
       #editor {
         /* max-height: var(--calculated-polymer-quill-editor-max-height); */
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
         border-left: none;
+        border-right: none;
         background: #fff;
         font-size: 1rem;
         flex: 1 1 auto;
      }
-     iron-icon[icon="icons:delete"] {
+     #editor p {
+      border-bottom: 1px dashed #ddd;
+      padding: .15rem;
+     }
+     #editor p:last-of-type {
+       border-bottom: none;
+     }
+     #editor .ql-editor {
+       padding: 1rem 0;
+     }
+     iron-icon[icon="icons:clear"] {
+       margin: 5px;
+       width: 22px;
+       height: 22px;
+       padding: 6px;
+       cursor: pointer;
+       visibility: hidden;
+       opacity: 0;
+       transition: 0.2s;
+     }
+     iron-icon:hover {
+       fill: #06c;
+     }
+     iron-icon[icon="icons:settings"] {
+       margin: 5px;
        margin-top: auto;
-       border-top: 1px solid #ccc;
        width: 32px;
        height: 32px;
        padding: 6px;
        cursor: pointer;
-     }
-     iron-icon[icon="icons:delete"]:hover {
-       fill: #06c;
+       visibility: hidden;
+       opacity: 0;
+       transition: 0.2s;
      }
       .results {
         padding: 20px 10px;
@@ -117,6 +147,16 @@ Custom property | Description | Default
       .disabled {
         border: 1px solid #ccc !important;
         opacity: 0.85;
+      }
+      .icon-container {
+        border: 1px solid #ccc;
+        border-left: 0;
+        box-sizing: border-box;
+        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+        background: #fff;
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
       }
 
     </style>
@@ -148,7 +188,7 @@ Custom property | Description | Default
         <button class="ql-clean" title="Clear Formating"></button>
         <!-- <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button> -->
       </span>
-      <iron-icon icon="icons:delete" on-tap="deleteSegment"></iron-icon>
+      <iron-icon icon="icons:settings" on-tap="openSegmentBreakEditor"></iron-icon>
       <!-- <span class="ql-formats" hidden$="{{standardToolbar}}">
         <select class="ql-color" title="Text Color"></select>
         <select class="ql-background" title="Text Background Color"></select>
@@ -184,6 +224,9 @@ Custom property | Description | Default
       </span> -->
     </div>
     <div id="editor" class$="{{disabledClass}}">{{content}}</div>
+    <div class="icon-container">
+      <iron-icon icon="icons:clear" on-tap="deleteSegment"></iron-icon>
+    </div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
 
@@ -347,6 +390,9 @@ Custom property | Description | Default
       },
       deleteSegment: function() {
         this.fire('delete-segment',{"segmentIndex":this.segmentIndex,"isNewStory":this.isNewStory});
+      },
+      openSegmentBreakEditor: function() {
+        this.fire('open-segment-break-editor',{"indexOfSegment":this.index});
       },
       ready: function() {
         // console.log('READY');
