@@ -87,7 +87,7 @@ Custom property | Description | Default
         display: flex;
         align-items: stretch;
         @apply(--polymer-quill);
-        margin-top: 1rem;
+        margin-bottom: 1.5rem;
       }
       :host(:hover) .ql-snow.ql-toolbar button,
       :host(:hover) iron-icon[icon="icons:clear"],
@@ -157,6 +157,7 @@ Custom property | Description | Default
         flex: 0 0 auto;
         display: flex;
         flex-direction: column;
+        min-width: 40px;
       }
 
     </style>
@@ -188,7 +189,9 @@ Custom property | Description | Default
         <button class="ql-clean" title="Clear Formating"></button>
         <!-- <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button> -->
       </span>
-      <iron-icon icon="icons:settings" on-tap="openSegmentBreakEditor"></iron-icon>
+      <template is="dom-if" if="[[!isInsight]]">
+        <iron-icon icon="icons:settings" on-tap="openSegmentBreakEditor"></iron-icon>
+      </template>
       <!-- <span class="ql-formats" hidden$="{{standardToolbar}}">
         <select class="ql-color" title="Text Color"></select>
         <select class="ql-background" title="Text Background Color"></select>
@@ -225,7 +228,9 @@ Custom property | Description | Default
     </div>
     <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     <div class="icon-container">
-      <iron-icon icon="icons:clear" on-tap="deleteSegment"></iron-icon>
+      <template is="dom-if" if="[[!isInsight]]">
+        <iron-icon icon="icons:clear" on-tap="deleteSegment"></iron-icon>
+      </template>
     </div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
@@ -259,6 +264,10 @@ Custom property | Description | Default
         /**
          * Content which is in Deltas or HTML format.
          */
+        isInsight: {
+          type: Boolean,
+          value: false
+        },
         content: {
           type: String,
           value: '',
