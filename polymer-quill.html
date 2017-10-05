@@ -189,7 +189,7 @@ Custom property | Description | Default
         <button class="ql-clean" title="Clear Formating"></button>
         <!-- <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button> -->
       </span>
-      <template is="dom-if" if="[[!isInsight]]">
+      <template is="dom-if" if="[[shouldShowGear(isInsight,isNewStory)]]">
         <iron-icon icon="icons:settings" on-tap="openSegmentBreakEditor"></iron-icon>
       </template>
       <!-- <span class="ql-formats" hidden$="{{standardToolbar}}">
@@ -396,6 +396,9 @@ Custom property | Description | Default
           type: Boolean,
           value: false
         }
+      },
+      shouldShowGear: function(isInsight,isNewStory) {
+        return !(isInsight || isNewStory);
       },
       deleteSegment: function() {
         this.fire('delete-segment',{"segmentIndex":this.segmentIndex,"isNewStory":this.isNewStory});
