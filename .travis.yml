@@ -2,16 +2,16 @@ language: node_js
 sudo: required
 dist: trusty
 addons:
-  firefox: "46.0"
+  firefox: '46.0'
   apt:
     sources:
     - google-chrome
     packages:
     - google-chrome-stable
 node_js:
-- "6"
-- "5"
-- "4"
+- '6'
+- '5'
+- '4'
 before_script:
 - npm install -g bower polymer-cli
 - bower install
@@ -19,6 +19,6 @@ script:
 - xvfb-run polymer test
 notifications:
   slack:
-    secure: fkzkj/OPIUEcmjlnYaT2M89rlK14GILyIcJTNMfnZg8em19c0dPlZ4P/AJxmbb6UA1Xee037YMM5DPqlTp8+K2IZ8qsFsSTT+qZ6MIyRx6ZqlFTjkEq443cQBMExr7j5Vn9IRKMttDNkRdlgJp6AAvYKS9dVVyEnBxdasxsYIM5WPPxuGLETQozAmtHReqIAbNJ5kPlSgbUVBM15yPmog6ds+hPa4XCB4pdulm4sRzNkUrzM2Pe7lkR2tOTtEcGI34iXrQDwMUc91m3qPtTdRsT1Alr0LZxdgPa/H5NtsIXFqXuat/SuYomfmdrQoKiVzu+2u8ez8FhjYU8cVCSaYAh81WeVEYuyam5TQHZ5pNnG9M09cX9OqLHZa7sURmQe7nj+wwMJuIudRnxrii72oH2kKzYC2NgUnHlqaCIBsZfCDM/V6jP6R8QU8YjIxbZ2ILO8tAHAXJ0K5Uu70iIm2yK/WgvJed0Kj+AdAOOCJ3JHdQlf3nuHMAvX/l5djv99IObICroGNCDU9oKdKjLH+8jRC8mbkhxwWoI303k9C4jMSthMdyONlJ0zIXVkSQV56bzASPupp2TXgm4c1bgYDXdn5kgt/hVjPm/yGggiB8bJfVk/NdJgBF9Ajv0/2Zeq7/5kRqtvesD3JTRUCOhpDjkAqWKRRKaKKkn4NUac7yE=
+    secure: F/B4bz62a+mbbJzUr8Xj4ewE/rFpPPJDm4o8jA9R2em0vA/vyFRQBtUiRNSqlddgu8N2UrEUMuKtdvlGg1hKmt/pVi4Z0VJWdTetll4hKJ5+BpxRc8hprUdMQs0afJ+q4FIzJYKrJz3uYxGbsJjq387yeDKfdldByyWi+OkrJ7QbSi+T4MuDDGG3lFrT24qwh0hCkKtB2W8ZXASWWtV5q1j/Vz9+f4B9GVLFm2YGUw1hJ3lHkahhQHj7/ktJOeW7IAlObLvyYDFqg94moW96qtLwfz7yhjszxd7Xf9suQjl3RL9mwr9nx5cj2xlVmUEu0FxFyNltUH+yXfyNWO63QqMq8lw6ygHl56j1j5n575YLj2dhGS2mdPP2MvjIbRGV2p8I7BBswrzQEFj0Crqpvc0TFxtQAIIuh3X+VsxsjDYJsZtnfol0pCXsu/GzsbtvaPtLUNml+Nc/Fh8SDqNvcutXefUdPUr2t/Et1+hwNTxXTWotmPIIFHQ2mO/Piuh2y3HzzLOoYdjgIB6yOoml1tI9KEI9Tupb+A3PKMY0j4n5AnZ2GpvB7t0ToTWrcB8Rur5TfkaBdlsQki7vnmtHOyhSLkckwz0LEt9SFYFxoJUmw897y7L4P3w3sxw09aneIoWVHoLQ1RYb19uAzgp949yPpC35bHWlVzzkhUETPNM=
 after_failure:
 - after_failure
